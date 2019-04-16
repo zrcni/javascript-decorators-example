@@ -54,6 +54,7 @@ class Joke {
       .then(joke => `${joke.setup} ${joke.punchline}`);
   }
 
+  @logBefore
   @logError
   error() {
     throw new Error("AN ERROR");
