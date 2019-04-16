@@ -5,7 +5,7 @@ function readonly(target, key, descriptor) {
   return descriptor;
 }
 
-function logJokeBefore(target, key, descriptor) {
+function logBefore(target, key, descriptor) {
   const originalMethod = descriptor.value;
 
   descriptor.value = function(...args) {
@@ -15,7 +15,7 @@ function logJokeBefore(target, key, descriptor) {
   return descriptor;
 }
 
-function logJokeAfter(target, key, descriptor) {
+function logAfter(target, key, descriptor) {
   const originalMethod = descriptor.value;
 
   descriptor.value = async function(...args) {
@@ -26,7 +26,7 @@ function logJokeAfter(target, key, descriptor) {
   return descriptor;
 }
 
-function logJokeError(target, key, descriptor) {
+function logError(target, key, descriptor) {
   const originalMethod = descriptor.value;
 
   descriptor.value = function(...args) {
@@ -46,15 +46,15 @@ class Joke {
   @readonly
   default = "default joke";
 
-  @logJokeBefore
-  @logJokeAfter
+  @logBefore
+  @logAfter
   random() {
     return fetch("https://official-joke-api.appspot.com/random_joke")
       .then(res => res.json())
       .then(joke => `${joke.setup} ${joke.punchline}`);
   }
 
-  @logJokeError
+  @logError
   error() {
     throw new Error("AN ERROR");
   }
